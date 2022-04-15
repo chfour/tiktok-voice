@@ -2,7 +2,7 @@ import requests, os, base64, time, json, string, random
 
 # https://twitter.com/scanlime/status/1512598559769702406
 
-voices = [
+VOICES = [
     # DISNEY VOICES
     'en_us_ghostface',        # Ghost Face
     'en_us_chewbacca',        # Chewbacca
@@ -29,11 +29,10 @@ voices = [
 ]
 
 
-def tts(text_speaker: str = "en_us_002", req_text: str = "TikTok Text To Speech"):
+def tts(speaker:str="en_us_002", text:str="TikTok Text To Speech"):
+    text = text.replace(" ", "+")
 
-    req_text = req_text.replace(" ", "+")
-
-    url = f"https://api16-normal-useast5.us.tiktokv.com/media/api/text/speech/invoke/?text_speaker={text_speaker}&req_text={req_text}&speaker_map_type=0"
+    url = f"https://api16-normal-useast5.us.tiktokv.com/media/api/text/speech/invoke/?text_speaker={speaker}&req_text={text}&speaker_map_type=0"
 
     r = requests.post(url)
 
@@ -61,15 +60,17 @@ def main():
 
 def randomvoice():
     count = random.randint(0, 15)
-    text_speaker = voices[count]
+    text_speaker = VOICES[count]
 
     return text_speaker
 
 def sampler():
-    for item in voices:
+    for item in VOICES:
         text_speaker = item
         print(item)
         req_text = 'TikTok Text To Speech Sample'
         tts(text_speaker, req_text)
 
-main()
+
+if __name__ == "__main__":
+    main()
